@@ -1,24 +1,49 @@
-import React from "react";
-import { Outlet } from "@remix-run/react";
+import type { LinksFunction } from "@remix-run/node";
+import { Link, Outlet } from "@remix-run/react";
+
+import stylesUrl from "~/styles/jokes.css";
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: stylesUrl },
+];
 
 
-const JokesRoute: React.FC<{}> = () => {
+export default function JokesRoute() {
   return (
-    <div>
-      <h1>J🤪kes</h1>
-      <main>
-        <Outlet />
+    <div className="jokes-layout">
+      <header className="jokes-header">
+        <div className="container">
+          <h1 className="home-link">
+            <Link
+              to="/"
+              title="Remix Jokes"
+              aria-label="Remix Jokes"
+            >
+              <span className="logo">🤪</span>
+              <span className="logo-medium">J🤪KES</span>
+            </Link>
+          </h1>
+        </div>
+      </header>
+      <main className="jokes-main">
+        <div className="container">
+          <div className="jokes-list">
+            <Link to=".">Get a random joke</Link>
+            <p>Here are a few more jokes to check out:</p>
+            <ul>
+              <li>
+                <Link to="some-joke-id">Hippo</Link>
+              </li>
+            </ul>
+            <Link to="new" className="button">
+              Add your own
+            </Link>
+          </div>
+          <div className="jokes-outlet">
+            <Outlet />
+          </div>
+        </div>
       </main>
     </div>
   );
-};
-
-export default JokesRoute;
-
-// a._index.tsx inside a.tsx if <Outlet /> replace it
-// root.tsx
-// routes/_index.tsx is an alias root._index.tsx
-
-// jokes.new.tsx --> jokes/new
-// jokes.tsx <Outlet /> --> jokes._index.tsx
-//
+}
